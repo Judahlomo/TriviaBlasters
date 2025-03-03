@@ -11,60 +11,63 @@ struct MainMenuView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                // Background
-                Image("space_background")
+                // Space Image Background
+                Image("Space")
                     .resizable()
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
                 
-                VStack(spacing: 30) {
+                VStack(spacing: 20) {
+                    Spacer(minLength: 100) // Adjusts title position
+                    
+                    // Title
                     Text("Trivia Blasters")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
+                        .font(.system(size: 40, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
-                        .shadow(radius: 5)
+                        .shadow(color: .blue.opacity(0.7), radius: 5)
                     
-                    NavigationLink(destination: GameView()) {
-                        Text("New Game")
-                            .font(.title)
-                            .foregroundColor(.black)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(10)
+                    Spacer(minLength: 20)
+                    
+                    // Menu Buttons
+                    VStack(spacing: 20) {
+                        NavigationLink(destination: GameView()) {
+                            menuButton(title: "New Game", colors: [Color.blue, Color.purple])
+                        }
+                        NavigationLink(destination: ShopView()) {
+                            menuButton(title: "Shop", colors: [Color.purple, Color.pink])
+                        }
+                        NavigationLink(destination: CustomizeView()) {
+                            menuButton(title: "Customize", colors: [Color.pink, Color.orange])
+                        }
+                        NavigationLink(destination: SettingsView()) {
+                            menuButton(title: "Settings", colors: [Color.green, Color.blue])
+                        }
                     }
                     
-                    NavigationLink(destination: ShopView()) {
-                        Text("Shop")
-                            .font(.title)
-                            .foregroundColor(.black)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(10)
-                    }
-                    
-                    NavigationLink(destination: CustomizeView()) {
-                        Text("Customize")
-                            .font(.title)
-                            .foregroundColor(.black)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(10)
-                    }
-                    
-                    NavigationLink(destination: SettingsView()) {
-                        Text("Settings")
-                            .font(.title)
-                            .foregroundColor(.black)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(10)
-                    }
+                    Spacer()
                 }
+                .padding()
             }
         }
     }
+    
+    private func menuButton(title: String, colors: [Color]) -> some View {
+        Text(title)
+            .font(.title2)
+            .fontWeight(.bold)
+            .foregroundColor(.white)
+            .padding()
+            .frame(maxWidth: 250)
+            .background(
+                LinearGradient(gradient: Gradient(colors: colors), startPoint: .topLeading, endPoint: .bottomTrailing)
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                    .overlay(RoundedRectangle(cornerRadius: 15).stroke(Color.white, lineWidth: 2))
+                    .shadow(color: colors.first ?? .white, radius: 5)
+            )
+    }
 }
 
+// MARK: - Preview
 struct MainMenuView_Previews: PreviewProvider {
     static var previews: some View {
         MainMenuView()
