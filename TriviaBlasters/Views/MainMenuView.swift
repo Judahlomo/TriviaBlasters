@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainMenuView: View {
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 // Space Image Background
                 Image("Space")

@@ -9,31 +9,39 @@ import SwiftUI
 
 struct SettingsView: View {
     @State private var soundEnabled: Bool = true
+    @Environment(\.presentationMode) var presentationMode // Allows going back
     
     var body: some View {
-        ZStack {
-            Color.black.edgesIgnoringSafeArea(.all) // Background
-            
-            VStack(spacing: 20) {
-                Text("Settings")
-                    .font(.largeTitle)
-                    .foregroundColor(.white)
-                    .bold()
+        NavigationView {
+            ZStack {
+                Color.black.edgesIgnoringSafeArea(.all) // Background
                 
-                Toggle("Sound Effects", isOn: $soundEnabled)
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(10)
-                    .padding(.horizontal, 40)
-                
-                NavigationLink(destination: MainMenuView()) {
-                    Text("Back to Menu")
-                        .font(.title)
-                        .foregroundColor(.black)
+                VStack(spacing: 20) {
+                    Text("Settings")
+                        .font(.largeTitle)
+                        .foregroundColor(.white)
+                        .bold()
+                    
+                    Toggle("Sound Effects", isOn: $soundEnabled)
                         .padding()
                         .background(Color.white)
                         .cornerRadius(10)
+                        .padding(.horizontal, 40)
+                    
+                    // Back to Menu Button
+                    Button(action: {
+                        // This will dismiss the current view and go back to the previous screen
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Text("Back to Menu")
+                            .font(.title)
+                            .foregroundColor(.black)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(10)
+                    }
                 }
+                .navigationBarBackButtonHidden(true) // Hide default back button if you want to customize
             }
         }
     }
