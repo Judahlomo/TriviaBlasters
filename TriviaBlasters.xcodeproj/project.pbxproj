@@ -35,7 +35,7 @@
 			membershipExceptions = (
 				Models/Enemy.swift,
 				Models/PlayerShip.swift,
-				Models/TriviaQuestions.swift,
+				Models/RawTrivia.json,
 			);
 			target = 0C4150C62D6561B90073DE27 /* TriviaBlasters */;
 		};

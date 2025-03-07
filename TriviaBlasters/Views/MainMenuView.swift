@@ -39,6 +39,9 @@ struct MainMenuView: View {
                         NavigationLink(destination: CustomizeView()) {
                             menuButton(title: "Customize", colors: [Color.pink, Color.orange])
                         }
+                        NavigationLink(destination: PracticeQuestionsView()) {
+                            menuButton(title: "Practice Trivia", colors: [Color.orange, Color.green])
+                        }
                         NavigationLink(destination: SettingsView()) {
                             menuButton(title: "Settings", colors: [Color.green, Color.blue])
                         }
