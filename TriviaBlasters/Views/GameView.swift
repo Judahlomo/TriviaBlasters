@@ -6,14 +6,23 @@
 //
 
 import SwiftUI
+import SpriteKit
 
 struct GameView: View {
     @State private var isPaused = false
 
+    var scene: SKScene {
+        let scene = GameEngine()
+        scene.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        scene.scaleMode = .resizeFill
+        return scene
+    }
+
     var body: some View {
         ZStack {
-            Color.black.edgesIgnoringSafeArea(.all) // Placeholder background
-            
+            SpriteView(scene: scene) //
+                .edgesIgnoringSafeArea(.all) // Ensure full screen
+
             if isPaused {
                 PauseMenuView(isPaused: $isPaused)
             }

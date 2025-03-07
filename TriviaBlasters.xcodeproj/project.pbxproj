@@ -33,8 +33,6 @@
 		0C4151032D656A580073DE27 /* Exceptions for "TriviaBlasters" folder in "TriviaBlasters" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Models/Enemy.swift,
-				Models/PlayerShip.swift,
 				Models/TriviaQuestions.swift,
 			);
 			target = 0C4150C62D6561B90073DE27 /* TriviaBlasters */;
