@@ -22,16 +22,33 @@ class TriviaQuestionsModel: ObservableObject {
     //This function is not working as of now, but in theory it's correct.
     func loadQuestions() {
         print("loading questions...")
-        guard let url = Bundle.main.url(forResource: "RawTrivia", withExtension: "json")
-            else {
-                print("json file not found")
-                return
-            }
-        
-        let data = try? Data(contentsOf: url)
-        let questions = try? JSONDecoder().decode([Question].self, from: data!) //potentially .self after [Question]
-        
-        self.questions = questions ?? []
+//        guard let url = Bundle.main.url(forResource: "RawTrivia", withExtension: "json")
+//            else {
+//                print("json file not found")
+//                return
+//            }
+        do {
+//            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+//            let url = documentsDirectory.appendingPathComponent("RawTrivia.json")
+            
+            let url = Bundle.main.url(forResource: "RawTrivia", withExtension: "json")
+            
+            
+            //let url = URL(string: "/Users/gtroast/Documents/TriviaBlasters/TriviaBlasters/Models/RawTrivia.json")
+            
+            print("Url: \(String(describing: url))")
+            
+            let data = try Data(contentsOf: url!)
+            print("Got some data")
+            print(String(data: data, encoding: .utf8) ?? "Error converting to string")
+            let questions = try JSONDecoder().decode([Question].self, from: data) //potentially .self after [Question]
+            print("Decoded array of Question elements from data")
+            
+            self.questions = questions
+            print("Stored array in self.questions")
+        } catch {
+            print("Error: \(error.localizedDescription)")
+        }
     }
     
     func learnedQuestion(q: Question) {

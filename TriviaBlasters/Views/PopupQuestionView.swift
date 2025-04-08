@@ -14,7 +14,7 @@ struct PopupQuestionView: View {
     @State var question: Question
     @State var selectedOption: String?
     
-    init(question: Question = Question(question: "What is the first letter of the alphabet?", answer: "A", options: ["G", "A", "Omega", "Z"])) {
+    init(question: Question = Question(id: 1, question: "What is the first letter of the alphabet?", answer: "A", options: ["G", "A", "Omega", "Z"])) {
         self.question = question
     }
     

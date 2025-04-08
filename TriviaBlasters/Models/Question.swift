@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Question: Identifiable, Decodable, Hashable {
-    var id = UUID()
+struct Question: Decodable, Hashable, Encodable { //No Identifiable in here, which requires an ID
+    var id: Int
     var question: String
     var answer: String
     var options: [String]
@@ -17,6 +17,7 @@ struct Question: Identifiable, Decodable, Hashable {
     //This would be something to have happen later when more complexity is desired
     
     enum CodingKeys: CodingKey {
+        case id
         case question
         case answer
         case options

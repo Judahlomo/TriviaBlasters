@@ -11,17 +11,20 @@ struct PracticeQuestionsView: View {
     @EnvironmentObject var triviaQuestionsModel: TriviaQuestionsModel
     
     //This won't be useful once triviaQuestionsModel is fully working
-    @State var questions: [Question] = [Question(question: "What is the first letter of the alphabet?", answer: "A", options: ["G", "A", "Omega", "Z"], learned: true),
-                                        Question(question: "What is the first letter of the alphabet?", answer: "A", options: ["G", "A", "Omega", "Z"], learned: false),
-                                        Question(question: "What is the first letter of the alphabet?", answer: "A", options: ["G", "A", "Omega", "Z"], learned: true),
-                                        Question(question: "What is the first letter of the alphabet?", answer: "A", options: ["G", "A", "Omega", "Z"], learned: false),
-                                        Question(question: "What is the first letter of the alphabet?", answer: "A", options: ["G", "A", "Omega", "Z"], learned: false)]
+    @State var questions: [Question] = [Question(id: 1, question: "What is the first letter of the alphabet?", answer: "A", options: ["G", "A", "Omega", "Z"], learned: true),
+                                        Question(id: 2, question: "What is the first letter of the alphabet?", answer: "A", options: ["G", "A", "Omega", "Z"], learned: false),
+                                        Question(id: 3, question: "What is the first letter of the alphabet?", answer: "A", options: ["G", "A", "Omega", "Z"], learned: true),
+                                        Question(id: 4, question: "What is the first letter of the alphabet?", answer: "A", options: ["G", "A", "Omega", "Z"], learned: false),
+                                        Question(id: 5, question: "What is the first letter of the alphabet?", answer: "A", options: ["G", "A", "Omega", "Z"], learned: false)]
     
     @State private var stackPath: [Question] = []
+    
     
     var body: some View {
         //Currently, NavigationStack functionality is not working
         NavigationStack (path: $stackPath) {
+//            let encoder = JSONEncoder()
+//            let data = try encoder.encode(self.notes)
             List {
                 ForEach(questions, id: \.self) {q in
                     NavigationLink(value: q) {
