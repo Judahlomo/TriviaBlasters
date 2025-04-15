@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Question: Decodable, Hashable, Encodable, Identifiable { //No Identifiable in here, which requires an ID
+struct Question: Codable, Hashable, Identifiable { //No Identifiable in here, which requires an ID
     var id: Int
     var question: String
     var answer: String

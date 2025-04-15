@@ -7,67 +7,58 @@
 
 import Foundation
 
-//The RawTrivia doc is supposed to be the JSON storage of questions. I'm looking around for more viable storage options.
-
 class TriviaQuestionsModel: ObservableObject {
-    @Published var knownQuestions: [Question] = []
-    @Published var unknownQuestions: [Question] = []
-    @Published var questions: [Question] = []
+    @Published var questions: [Question] = [] {
+        didSet {
+            saveQuestions()
+        }
+    }
     
     init() {
         loadQuestions()
-        sortQuestions()
     }
     
-    //This function is not working as of now, but in theory it's correct.
+    //Loads questions from RawTrivia json file. Handles errors by printing out localizedDescription
     func loadQuestions() {
         print("loading questions...")
-//        guard let url = Bundle.main.url(forResource: "RawTrivia", withExtension: "json")
-//            else {
-//                print("json file not found")
-//                return
-//            }
+
         do {
-//            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-//            let url = documentsDirectory.appendingPathComponent("RawTrivia.json")
             
             let url = Bundle.main.url(forResource: "RawTrivia", withExtension: "json")
             
-            
-            //let url = URL(string: "/Users/gtroast/Documents/TriviaBlasters/TriviaBlasters/Models/RawTrivia.json")
-            
-            print("Url: \(String(describing: url))")
-            
             let data = try Data(contentsOf: url!)
-            print("Got some data")
-            //print(String(data: data, encoding: .utf8) ?? "Error converting to string")
-            let questions = try JSONDecoder().decode([Question].self, from: data) //potentially .self after [Question]
-            print("Decoded array of Question elements from data")
+            let questions = try JSONDecoder().decode([Question].self, from: data)
             
             self.questions = questions
-            print("Stored array in self.questions")
+            print("Successfully loaded questions")
         } catch {
-            print("Error: \(error.localizedDescription)")
+            print("Error loading questions: \(error.localizedDescription)")
         }
     }
     
+    //Toggles a question's learned variable to true. Saves questions afterwards
     func learnedQuestion(q: Question) {
-        if let index = self.unknownQuestions.firstIndex(where: { $0.id == q.id }) {
-            self.unknownQuestions[index].learned.toggle()
-            self.knownQuestions.append(self.unknownQuestions[index])
-            self.unknownQuestions.remove(at: index)
+        if let index = self.questions.firstIndex(where: { $0.id == q.id }) {
+            self.questions[index].learned = true //could do .toggle()
+        }
+        saveQuestions()
+    }
+    
+    func learnedQuestion(q: Int) {
+        self.questions[q].learned = true //could do .toggle()
+        saveQuestions()
+    }
+    
+    //Saves questions. Handles errors by printing out localizedDescription
+    func saveQuestions() {
+        do {
+            let encoder = JSONEncoder()
+            let data = try encoder.encode(questions)
+            let url = Bundle.main.url(forResource: "RawTrivia", withExtension: "json")
+            try data.write(to: url!)
+        } catch {
+            print("Error saving questions: \(error.localizedDescription)")
         }
     }
     
-    func sortQuestions() {
-        for index in 0..<questions.count {
-            if questions[index].learned {
-                knownQuestions.append(questions[index])
-            } else {
-                unknownQuestions.append(questions[index])
-            }
-        }
-        //questions.removeAll()
-        //save space? Is that necessary? Or could questions[] be used for something?
-    }
 }

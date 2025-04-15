@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MainMenuView: View {
+    @EnvironmentObject var triviaQuestionsModel: TriviaQuestionsModel
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -74,5 +76,6 @@ struct MainMenuView: View {
 struct MainMenuView_Previews: PreviewProvider {
     static var previews: some View {
         MainMenuView()
+            .environmentObject(TriviaQuestionsModel())
     }
 }
