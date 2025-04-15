@@ -40,7 +40,7 @@ class TriviaQuestionsModel: ObservableObject {
             
             let data = try Data(contentsOf: url!)
             print("Got some data")
-            print(String(data: data, encoding: .utf8) ?? "Error converting to string")
+            //print(String(data: data, encoding: .utf8) ?? "Error converting to string")
             let questions = try JSONDecoder().decode([Question].self, from: data) //potentially .self after [Question]
             print("Decoded array of Question elements from data")
             

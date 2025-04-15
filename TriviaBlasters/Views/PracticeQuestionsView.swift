@@ -26,7 +26,7 @@ struct PracticeQuestionsView: View {
 //            let encoder = JSONEncoder()
 //            let data = try encoder.encode(self.notes)
             List {
-                ForEach(questions, id: \.self) {q in
+                ForEach(triviaQuestionsModel.questions, id: \.self) {q in
                     NavigationLink(value: q) {
                         QuestionRowView(question: q)
                     }

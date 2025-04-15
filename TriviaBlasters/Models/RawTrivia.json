@@ -30,8 +30,8 @@
     {
         "id": 5,
         "question": "You can print the value of the variable \"var\" by using the format...",
-        "answer": "print(\“var is \\(var)\”)",
-        "options": ["print(\“var is \\(var)\”)", "print(\“var\”)", "print(\“var is /(var)\”)", "print(\“var is [var]\”)"],
+        "answer": "print(“var is \\(var)”)",
+        "options": ["print(“var is \\(var)”)", "print(“var”)", "print(“var is /(var)”)", "print(“var is [var]”)"],
         "learned": false
     },
     {
