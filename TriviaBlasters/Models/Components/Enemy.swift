@@ -12,10 +12,10 @@ import SpriteKit
 class Enemy: SKSpriteNode {
     
     init(type: EnemyType) {
-        let enemyTexture = SKTexture(imageNamed: "Invader\(type.rawValue)")
+        let enemyTexture = SKTexture(imageNamed: "Invader\(type.rawValue)")  // Assumes "InvaderA", "InvaderB", etc.
         super.init(texture: enemyTexture, color: .clear, size: EnemyType.size)
 
-        self.name = EnemyType.name 
+        self.name = EnemyType.name
         self.physicsBody = SKPhysicsBody(rectangleOf: self.size)
         self.physicsBody?.isDynamic = false
         self.physicsBody?.affectedByGravity = false
@@ -31,7 +31,7 @@ class Enemy: SKSpriteNode {
 }
 
 // MARK: - Enemy Spawning & Movement
-extension GameEngine {  //
+extension GameEngine {
 
     func setupEnemies() {
         let baseOrigin = CGPoint(x: size.width / 3, y: size.height / 2)
@@ -59,14 +59,15 @@ extension GameEngine {  //
         }
     }
 
-    // MARK: - Enemy Movement Logic
-   /* func moveEnemies(forUpdate currentTime: CFTimeInterval) {
+    func moveEnemies(forUpdate currentTime: CFTimeInterval) {
         if (currentTime - timeOfLastMove < timePerMove) { return }
-        
+
         determineEnemyMovementDirection()
-      
-        enumerateChildNodes(withName: EnemyType.name) { node, stop in
-            switch self.enemyMovementDirection { 
+
+        var enemyReachedBottom = false
+
+        enumerateChildNodes(withName: EnemyType.name) { node, _ in
+            switch self.enemyMovementDirection {
             case .right:
                 node.position = CGPoint(x: node.position.x + 10, y: node.position.y)
             case .left:
@@ -76,52 +77,69 @@ extension GameEngine {  //
             case .none:
                 break
             }
+
+            // Check if enemy reached bottom
+            if node.position.y <= 50 {
+                enemyReachedBottom = true
+            }
         }
-        
+
         timeOfLastMove = currentTime
+
+        // Handle bottom reach: trigger trivia mode
+        if enemyReachedBottom && !isGameOver {
+            pauseGameForTrivia()
+        }
     }
-*/
+
     func determineEnemyMovementDirection() {
-        var proposedMovementDirection: EnemyMovementDirection = enemyMovementDirection
-        
+        var proposedDirection: EnemyMovementDirection = enemyMovementDirection
+
         enumerateChildNodes(withName: EnemyType.name) { node, stop in
             switch self.enemyMovementDirection {
             case .right:
-                if (node.frame.maxX >= node.scene!.size.width - node.frame.width / 2) {
-                    proposedMovementDirection = .downThenLeft
+                if node.frame.maxX >= self.size.width - node.frame.width / 2 {
+                    proposedDirection = .downThenLeft
                     stop.pointee = true
                 }
             case .left:
-                if (node.frame.minX <= node.frame.width / 2) {
-                    proposedMovementDirection = .downThenRight
+                if node.frame.minX <= node.frame.width / 2 {
+                    proposedDirection = .downThenRight
                     stop.pointee = true
                 }
             case .downThenLeft:
-                proposedMovementDirection = .left
+                proposedDirection = .left
                 self.adjustEnemyMovement(to: self.timePerMove * 0.8)
                 stop.pointee = true
             case .downThenRight:
-                proposedMovementDirection = .right
+                proposedDirection = .right
                 self.adjustEnemyMovement(to: self.timePerMove * 0.8)
                 stop.pointee = true
             default:
                 break
             }
         }
-        
-        if proposedMovementDirection != enemyMovementDirection {
-            enemyMovementDirection = proposedMovementDirection
+
+        if proposedDirection != enemyMovementDirection {
+            enemyMovementDirection = proposedDirection
         }
     }
 
-    func adjustEnemyMovement(to timePerMove: CFTimeInterval) {
-        if self.timePerMove <= 0 { return }
-        
-        let ratio: CGFloat = CGFloat(self.timePerMove / timePerMove)
-        self.timePerMove = timePerMove
-        
-        enumerateChildNodes(withName: EnemyType.name) { node, stop in
-            node.speed = node.speed * ratio
+    func adjustEnemyMovement(to newTimePerMove: CFTimeInterval) {
+        let minTimePerMove: CFTimeInterval = 0.3
+        if newTimePerMove < minTimePerMove { return }
+
+        let ratio: CGFloat = CGFloat(timePerMove / newTimePerMove)
+        timePerMove = max(newTimePerMove, minTimePerMove)
+
+        enumerateChildNodes(withName: EnemyType.name) { node, _ in
+            node.speed *= ratio
         }
+    }
+
+    // MARK: - Game Logic Hook
+    func pauseGameForTrivia() {
+        self.isPaused = true
+        NotificationCenter.default.post(name: Notification.Name("TriggerTriviaPopup"), object: nil)
     }
 }

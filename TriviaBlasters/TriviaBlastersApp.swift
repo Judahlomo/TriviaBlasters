@@ -11,7 +11,7 @@ import SwiftUI
 struct TriviaBlastersApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView() 
         }
     }
 }
