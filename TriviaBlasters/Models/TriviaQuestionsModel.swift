@@ -46,6 +46,11 @@ class TriviaQuestionsModel: ObservableObject {
         saveQuestions()
     }
     
+    func randomQuestion() -> Question {
+        let index = Int.random(in: 0..<self.questions.count)
+        return self.questions[index]
+    }
+    
     //Saves questions. Handles errors by printing out localizedDescription
     func saveQuestions() {
         do {

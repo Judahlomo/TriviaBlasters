@@ -17,6 +17,9 @@ import SwiftUI
 
 struct PracticeQuestionsView: View {
     @EnvironmentObject var triviaQuestionsModel: TriviaQuestionsModel
+    @State var questionToPractice: Question?
+    @State var practicing = false
+    @State var encouragement = false
     
     //@State private var stackPath: [Question] = []
     
@@ -26,32 +29,58 @@ struct PracticeQuestionsView: View {
     */
     var body: some View {
         //NavigationStack (path: $stackPath) {
-            List {
-                ForEach(triviaQuestionsModel.questions, id: \.self) {q in
-                    NavigationLink(value: q) {
-                        QuestionRowView(question: q)
+//            List {
+//                ForEach(triviaQuestionsModel.questions, id: \.self) {q in
+//                    NavigationLink(value: q) {
+//                        QuestionRowView(question: q)
+//                    }
+//                }
+//            }
+//            .navigationTitle("Trivia")
+//            .navigationDestination(for: Question.self) {q in
+//                PopupQuestionView(question: q, onCorrectAnswer: {triviaQuestionsModel.learnedQuestion(q: q)})
+//            }
+        if practicing {
+            PopupQuestionView(/*isPresented: $practicing, */question: questionToPractice!, onCorrectAnswer: { practicing = false; encouragement = false }, onIncorrectAnswer: { encouragement = true })
+            if encouragement {
+                Text("Incorrect. Try again!")
+            }
+            //Note: if this else is not there, it's just a popup on the screen with the list still present. Which is kind of cool, I think...
+        } else {
+            
+            List(triviaQuestionsModel.questions) { question in
+                if question.learned {
+                    Button {
+                        questionToPractice = question
+                        practicing = true
+                    } label: {
+                        Text(question.question)
                     }
                 }
             }
             .navigationTitle("Trivia")
-            .navigationDestination(for: Question.self) {q in
-                PopupQuestionView(question: q, onCorrectAnswer: {triviaQuestionsModel.learnedQuestion(q: q)})
-            }
+        }
+//        List(triviaQuestionsModel.questions) { question in
+//                NavigationLink(value: question) {
+//                    QuestionRowView(question: question)
+//                }
+//            }
+//            .navigationTitle("Trivia")
+//            .navigationDestination(for: Question.self) {q in
+//                PopupQuestionView(question: q, onCorrectAnswer: {triviaQuestionsModel.learnedQuestion(q: q)})
+//            }
         //}
     }
 }
 
 /*
- Real simple view, just shows a checkmark if the question has been learned.
- That functionality may have to go away if we implement the stuff mentioned in my note above
- */
+ Currently unused view...
+*/
 struct QuestionRowView: View {
     var question: Question
     
     var body: some View {
         HStack {
-            Image(systemName: "checkmark")
-                .foregroundColor(question.learned ? .green : .white)
             Text(question.question)
         }
     }

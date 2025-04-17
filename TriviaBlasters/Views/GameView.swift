@@ -10,6 +10,10 @@ import SpriteKit
 
 struct GameView: View {
     @State private var isPaused = false
+    
+    @EnvironmentObject var triviaModel: TriviaQuestionsModel
+    @State private var triviaPause = false
+    @State private var answeredCorrectly = false
 
     var scene: SKScene {
         let scene = GameEngine()
@@ -26,9 +30,20 @@ struct GameView: View {
             if isPaused {
                 PauseMenuView(isPaused: $isPaused)
             }
+            
+            if triviaPause {
+                let q = triviaModel.randomQuestion()
+                PopupQuestionView(/*isPresented: $triviaPause, */question: q, onCorrectAnswer: { triviaModel.learnedQuestion(q: q); answeredCorrectly = true; triviaPause = false }, onIncorrectAnswer: { answeredCorrectly = false; triviaPause = false })
+            }
 
             VStack {
                 HStack {
+                    Button(action: { triviaPause = true }) {
+                        Text("Trivia Trigger")
+                            .padding()
+                            .background(.white)
+                            .cornerRadius(8)
+                    }
                     Spacer()
                     Button(action: { isPaused = true }) {
                         Text("Pause")
@@ -47,5 +62,6 @@ struct GameView: View {
 struct GameView_Previews: PreviewProvider {
     static var previews: some View {
         GameView()
+            .environmentObject(TriviaQuestionsModel()) //For integrating trivia into previews
     }
 }

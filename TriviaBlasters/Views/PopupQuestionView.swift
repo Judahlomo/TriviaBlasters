@@ -9,12 +9,16 @@ import SwiftUI
 
 struct PopupQuestionView: View {
     //use the below var to dismiss popup during game
-    @Environment(\.dismiss) var dismiss
+//    @Environment(\.dismiss) var dismiss
+    //@Environment(\.presentationMode) var presentationMode
     //@Binding var path: [Question]
+    
+    //@Binding var isPresented: Bool
 
     @State var question: Question
     @State var selectedOption: String? //Currently unused, but... what if we made this a binding so we could "return" if the answer was correct during gameplay?
-   let onCorrectAnswer: () -> Void
+    let onCorrectAnswer: () -> Void
+    let onIncorrectAnswer: () -> Void
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -27,8 +31,9 @@ struct PopupQuestionView: View {
                         selectedOption = option
                         if selectedOption == question.answer {
                             onCorrectAnswer()
-                            dismiss()
-                            //path.removeLast()
+                            //isPresented = false
+                        } else {
+                            onIncorrectAnswer()
                         }
                     } label: {
                         if selectedOption == option {
@@ -50,6 +55,6 @@ struct PopupQuestionView: View {
 }
 
 #Preview {
-    //@Previewable @State var path: [Question] = []
-    PopupQuestionView(question: Question(id: 1, question: "What is the first letter of the alphabet?", answer: "A", options: ["G", "A", "Omega", "Z"]), onCorrectAnswer: {print("Correct, now do stuff elsewhere")})
+    @Previewable @State var presenting = true
+    PopupQuestionView(/*isPresented: $presenting, */question: Question(id: 1, question: "What is the first letter of the alphabet?", answer: "A", options: ["G", "A", "Omega", "Z"]), onCorrectAnswer: {print("Correct, now do stuff elsewhere")}, onIncorrectAnswer: {print("Incorrect, now do stuff elsewhere")})
 }
