@@ -19,8 +19,19 @@ class GameEngine: SKScene, ObservableObject {
     var bullets: [Bullet] = []
     
     var timeOfLastMove: CFTimeInterval = 0
-    var timePerMove: CFTimeInterval = 0.3
+    var timePerMove: CFTimeInterval = 0.2
     var enemyMovementDirection: EnemyMovementDirection = .right
+    
+    var maxActiveBullets = 5
+    var bulletCooldown: TimeInterval = 0.2
+    var lastBulletFiredAt: TimeInterval = 0
+    
+    var lastEnemyBulletTime: TimeInterval = 0
+    let enemyBulletCooldown: TimeInterval = 1.5
+    let maxEnemyBullets: Int = 5
+    
+    var shouldSpawnWaveAfterTrivia = false
+
     
     override func didMove(to view: SKView) {
         backgroundColor = .black
@@ -43,7 +54,17 @@ class GameEngine: SKScene, ObservableObject {
         moveEnemies(forUpdate: currentTime)
         moveBullets()
         checkBulletCollisions()
-    }
+        
+        // When trivia ends, respawn enemies if needed
+           if shouldSpawnWaveAfterTrivia && !isPaused && !isTriviaTime && !isGameOver {
+               let remainingEnemies = children.filter { $0.name == EnemyType.name }
+               if remainingEnemies.isEmpty {
+                   setupEnemies()
+                   shouldSpawnWaveAfterTrivia = false
+               }
+           }
+       }
+
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -57,8 +78,15 @@ class GameEngine: SKScene, ObservableObject {
     }
     
     func fireBullet() {
-        let bullet = Bullet(type: .player, position: CGPoint(x: player.position.x, y: player.position.y + 20))
-        addChild(bullet)
+        // Count current active bullets
+        let activeBullets = children.filter { $0.name == kShipFiredBulletName }.count
+
+        // Enforce cooldown and bullet cap
+        if activeBullets < maxActiveBullets && CACurrentMediaTime() - lastBulletFiredAt >= bulletCooldown {
+            let bullet = Bullet(type: .player, position: CGPoint(x: player.position.x, y: player.position.y + 20))
+            addChild(bullet)
+            lastBulletFiredAt = CACurrentMediaTime()
+        }
     }
     
     func fireEnemyBullet(from enemy: Enemy) {

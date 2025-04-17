@@ -33,7 +33,7 @@ class Bullet: SKSpriteNode {
 
     func moveBullet(type: BulletType) {
         let moveDistance = (type == .player) ? UIScreen.main.bounds.height : -UIScreen.main.bounds.height
-        let moveAction = SKAction.moveBy(x: 0, y: moveDistance, duration: 1.0)
+        let moveAction = SKAction.moveBy(x: 0, y: moveDistance, duration: (type == .player) ? 1.0 : 2.5)
         let removeAction = SKAction.removeFromParent()
         self.run(SKAction.sequence([moveAction, removeAction]))
     }

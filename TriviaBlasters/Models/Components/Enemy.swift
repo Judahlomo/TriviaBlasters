@@ -10,9 +10,9 @@ import Foundation
 import SpriteKit
 
 class Enemy: SKSpriteNode {
-    
+
     init(type: EnemyType) {
-        let enemyTexture = SKTexture(imageNamed: "Invader\(type.rawValue)")  // Assumes "InvaderA", "InvaderB", etc.
+        let enemyTexture = SKTexture(imageNamed: "Invader\(type.rawValue)")
         super.init(texture: enemyTexture, color: .clear, size: EnemyType.size)
 
         self.name = EnemyType.name
@@ -24,7 +24,7 @@ class Enemy: SKSpriteNode {
         self.physicsBody?.contactTestBitMask = 0x0
         self.physicsBody?.collisionBitMask = kFriendlyCategory
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -65,20 +65,30 @@ extension GameEngine {
         determineEnemyMovementDirection()
 
         var enemyReachedBottom = false
+        let activeEnemyBullets = children.filter { $0.name == kInvaderFiredBulletName }.count
 
         enumerateChildNodes(withName: EnemyType.name) { node, _ in
             switch self.enemyMovementDirection {
             case .right:
-                node.position = CGPoint(x: node.position.x + 10, y: node.position.y)
+                node.position.x += 10
             case .left:
-                node.position = CGPoint(x: node.position.x - 10, y: node.position.y)
+                node.position.x -= 10
             case .downThenLeft, .downThenRight:
-                node.position = CGPoint(x: node.position.x, y: node.position.y - 10)
+                node.position.y -= 10
             case .none:
                 break
             }
 
-            // Check if enemy reached bottom
+            // Controlled enemy firing
+            if currentTime - self.lastEnemyBulletTime > self.enemyBulletCooldown,
+               activeEnemyBullets < self.maxEnemyBullets,
+               Bool.random() && Int.random(in: 0...5) == 0 {
+                if let enemy = node as? Enemy {
+                    self.fireEnemyBullet(from: enemy)
+                    self.lastEnemyBulletTime = currentTime
+                }
+            }
+
             if node.position.y <= 50 {
                 enemyReachedBottom = true
             }
@@ -86,12 +96,10 @@ extension GameEngine {
 
         timeOfLastMove = currentTime
 
-        // Handle bottom reach: trigger trivia mode
         if enemyReachedBottom && !isGameOver {
             pauseGameForTrivia()
         }
     }
-
     func determineEnemyMovementDirection() {
         var proposedDirection: EnemyMovementDirection = enemyMovementDirection
 
@@ -137,9 +145,9 @@ extension GameEngine {
         }
     }
 
-    // MARK: - Game Logic Hook
     func pauseGameForTrivia() {
         self.isPaused = true
+        shouldSpawnWaveAfterTrivia = true
         NotificationCenter.default.post(name: Notification.Name("TriggerTriviaPopup"), object: nil)
     }
 }
