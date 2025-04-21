@@ -29,24 +29,9 @@
 		0C4150E12D6561BB0073DE27 /* TriviaBlastersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TriviaBlastersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		0C4151032D656A580073DE27 /* Exceptions for "TriviaBlasters" folder in "TriviaBlasters" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Models/Enemy.swift,
-				Models/PlayerShip.swift,
-				Models/TriviaQuestions.swift,
-			);
-			target = 0C4150C62D6561B90073DE27 /* TriviaBlasters */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		0C4150C92D6561B90073DE27 /* TriviaBlasters */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				0C4151032D656A580073DE27 /* Exceptions for "TriviaBlasters" folder in "TriviaBlasters" target */,
-			);
 			path = TriviaBlasters;
 			sourceTree = "<group>";
 		};
