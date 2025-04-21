@@ -5,14 +5,6 @@
 //  Created by Troast, Graham on 3/7/25.
 //
 
-
-/* Notes on this file...
- NavigationStack, with the accompanying stackPath variable, is used to create the NavigationLink to the PopupQuestionView. stackPath is an array of Ints intentionally, because that allows bindings to be passed to QuestionRowViews, which is useful for a reactive list.
- Later, we could do something where this list only shows learned questions. Then the user would be forced to play the game to encounter new questions and unlock them that way.
- 
- 
- */
-
 import SwiftUI
 
 struct PracticeQuestionsView: View {
@@ -21,31 +13,17 @@ struct PracticeQuestionsView: View {
     @State var practicing = false
     @State var encouragement = false
     
-    //@State private var stackPath: [Question] = []
-    
     /*
      This view creates a list of all questions in the triviaQuestionsModel.questions array
      It also links them to a PopupQuestionView if the list item is clicked
     */
     var body: some View {
-        //NavigationStack (path: $stackPath) {
-//            List {
-//                ForEach(triviaQuestionsModel.questions, id: \.self) {q in
-//                    NavigationLink(value: q) {
-//                        QuestionRowView(question: q)
-//                    }
-//                }
-//            }
-//            .navigationTitle("Trivia")
-//            .navigationDestination(for: Question.self) {q in
-//                PopupQuestionView(question: q, onCorrectAnswer: {triviaQuestionsModel.learnedQuestion(q: q)})
-//            }
         if practicing {
-            PopupQuestionView(/*isPresented: $practicing, */question: questionToPractice!, onCorrectAnswer: { practicing = false; encouragement = false }, onIncorrectAnswer: { encouragement = true })
+            PopupQuestionView(question: questionToPractice!, onCorrectAnswer: { practicing = false; encouragement = false }, onIncorrectAnswer: { encouragement = true })
             if encouragement {
                 Text("Incorrect. Try again!")
             }
-            //Note: if this else is not there, it's just a popup on the screen with the list still present. Which is kind of cool, I think...
+            //Note: the else prevents the popup from being on the screen at the same time as the list. Eliminating the else and just having the List outside the if practicing {} statement is an interesting effect, but I'm not sure which I like best.
         } else {
             
             List(triviaQuestionsModel.questions) { question in
@@ -60,21 +38,11 @@ struct PracticeQuestionsView: View {
             }
             .navigationTitle("Trivia")
         }
-//        List(triviaQuestionsModel.questions) { question in
-//                NavigationLink(value: question) {
-//                    QuestionRowView(question: question)
-//                }
-//            }
-//            .navigationTitle("Trivia")
-//            .navigationDestination(for: Question.self) {q in
-//                PopupQuestionView(question: q, onCorrectAnswer: {triviaQuestionsModel.learnedQuestion(q: q)})
-//            }
-        //}
     }
 }
 
 /*
- Currently unused view...
+ Currently unused view... Could be useful if we want the rows to have more info in them, like an icon or something. That would require extra tracking of things
 */
 struct QuestionRowView: View {
     var question: Question

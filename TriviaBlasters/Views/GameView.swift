@@ -12,7 +12,7 @@ struct GameView: View {
     @State private var isPaused = false
     
     @EnvironmentObject var triviaModel: TriviaQuestionsModel
-    @State private var triviaPause = false
+    @State private var triviaTrigger = false
     @State private var answeredCorrectly = false
 
     var scene: SKScene {
@@ -31,14 +31,16 @@ struct GameView: View {
                 PauseMenuView(isPaused: $isPaused)
             }
             
-            if triviaPause {
+            //This code responds to the triviaTrigger variable. Note that it does not actually pause the game.
+            if triviaTrigger {
                 let q = triviaModel.randomQuestion()
-                PopupQuestionView(/*isPresented: $triviaPause, */question: q, onCorrectAnswer: { triviaModel.learnedQuestion(q: q); answeredCorrectly = true; triviaPause = false }, onIncorrectAnswer: { answeredCorrectly = false; triviaPause = false })
+                PopupQuestionView(question: q, onCorrectAnswer: { triviaModel.learnedQuestion(q: q); answeredCorrectly = true; triviaTrigger = false }, onIncorrectAnswer: { answeredCorrectly = false; triviaTrigger = false })
             }
 
             VStack {
                 HStack {
-                    Button(action: { triviaPause = true }) {
+                    //This is a temporary button used to test how the trivia popup would work. The real event to trigger the popup should be something else. Unless we like the button (like use it if you want to try for a powerup or something).
+                    Button(action: { triviaTrigger = true }) {
                         Text("Trivia Trigger")
                             .padding()
                             .background(.white)
