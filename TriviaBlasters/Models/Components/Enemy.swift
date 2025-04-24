@@ -32,25 +32,25 @@ class Enemy: SKSpriteNode {
 
 // MARK: - Enemy Spawning & Movement
 extension GameEngine {
-
+    
     func setupEnemies() {
         let baseOrigin = CGPoint(x: size.width / 3, y: size.height / 2)
-
+        
         for row in 0..<kInvaderRowCount {
             var enemyType: EnemyType
-
+            
             if row < kInvaderRowCount / 3 { enemyType = .A }
             else if row < kInvaderRowCount / 3 * 2 { enemyType = .B }
             else { enemyType = .C }
-
+            
             let enemyPositionY = CGFloat(row) * (EnemyType.size.height * 2) + baseOrigin.y
             var enemyPosition = CGPoint(x: baseOrigin.x, y: enemyPositionY)
-
+            
             for _ in 1..<kInvaderColCount {
                 let enemy = Enemy(type: enemyType)
                 enemy.position = enemyPosition
                 addChild(enemy)
-
+                
                 enemyPosition = CGPoint(
                     x: enemyPosition.x + EnemyType.size.width + kInvaderGridSpacing.width,
                     y: enemyPositionY
@@ -58,15 +58,15 @@ extension GameEngine {
             }
         }
     }
-
+    
     func moveEnemies(forUpdate currentTime: CFTimeInterval) {
         if (currentTime - timeOfLastMove < timePerMove) { return }
-
+        
         determineEnemyMovementDirection()
-
+        
         var enemyReachedBottom = false
         let activeEnemyBullets = children.filter { $0.name == kInvaderFiredBulletName }.count
-
+        
         enumerateChildNodes(withName: EnemyType.name) { node, _ in
             switch self.enemyMovementDirection {
             case .right:
@@ -78,7 +78,7 @@ extension GameEngine {
             case .none:
                 break
             }
-
+            
             // Controlled enemy firing
             if currentTime - self.lastEnemyBulletTime > self.enemyBulletCooldown,
                activeEnemyBullets < self.maxEnemyBullets,
@@ -88,21 +88,21 @@ extension GameEngine {
                     self.lastEnemyBulletTime = currentTime
                 }
             }
-
+            
             if node.position.y <= 50 {
                 enemyReachedBottom = true
             }
         }
-
+        
         timeOfLastMove = currentTime
-
+        
         if enemyReachedBottom && !isGameOver {
             pauseGameForTrivia()
         }
     }
     func determineEnemyMovementDirection() {
         var proposedDirection: EnemyMovementDirection = enemyMovementDirection
-
+        
         enumerateChildNodes(withName: EnemyType.name) { node, stop in
             switch self.enemyMovementDirection {
             case .right:
@@ -127,27 +127,27 @@ extension GameEngine {
                 break
             }
         }
-
+        
         if proposedDirection != enemyMovementDirection {
             enemyMovementDirection = proposedDirection
         }
     }
-
+    
     func adjustEnemyMovement(to newTimePerMove: CFTimeInterval) {
         let minTimePerMove: CFTimeInterval = 0.3
         if newTimePerMove < minTimePerMove { return }
-
+        
         let ratio: CGFloat = CGFloat(timePerMove / newTimePerMove)
         timePerMove = max(newTimePerMove, minTimePerMove)
-
+        
         enumerateChildNodes(withName: EnemyType.name) { node, _ in
             node.speed *= ratio
         }
     }
-
+    
     func pauseGameForTrivia() {
         self.isPaused = true
-        shouldSpawnWaveAfterTrivia = true
+        self.shouldSpawnWaveAfterTrivia = true
         NotificationCenter.default.post(name: Notification.Name("TriggerTriviaPopup"), object: nil)
     }
 }
