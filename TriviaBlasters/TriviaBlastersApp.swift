@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct TriviaBlastersApp: App {
+    @StateObject private var triviaQuestions = TriviaQuestionsModel()
     var body: some Scene {
         WindowGroup {
-            ContentView() 
+            ContentView()
+                .environmentObject(triviaQuestions)
         }
     }
 }

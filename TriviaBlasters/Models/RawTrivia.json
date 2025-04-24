@@ -1,0 +1,282 @@
+[
+    {
+        "id": 1,
+        "question": "The @main attribute (where the app begins) is found in...",
+        "answer": "...App.swift",
+        "options": ["...App.swift", "ContentView.swift", "Assets.xcassets", "PreviewContent.swift"],
+        "learned": false
+    },
+    {
+        "id": 2,
+        "question": "The default view for an Xcode project is…",
+        "answer": "ContentView.swift",
+        "options": ["ContentView.swift", "...App.swift", "PreviewContent.swift", "ViewModel.swift"],
+        "learned": false
+    },
+    {
+        "id": 3,
+        "question": "Single line comments in Swift are begun by...",
+        "answer": "//",
+        "options": ["/*", "//", "/(", "***"],
+        "learned": false
+    },
+    {
+        "id": 4,
+        "question": "True or False: The line \"let num= 2\" creates a mutable variable with the value 2.",
+        "answer": "False",
+        "options": ["True", "False"],
+        "learned": false
+    },
+    {
+        "id": 5,
+        "question": "You can print the value of the variable \"var\" by using the format...",
+        "answer": "print(“var is \\(var)”)",
+        "options": ["print(“var is \\(var)”)", "print(“var”)", "print(“var is /(var)”)", "print(“var is [var]”)"],
+        "learned": false
+    },
+    {
+        "id": 6,
+        "question": "True or False: Swift can infer the type of variables if they are initialized without an explicitly type declaration.",
+        "answer": "True",
+        "options": ["True", "False"],
+        "learned": false
+    },
+    {
+        "id": 7,
+        "question": "A ___-while loop completes one iteration before checking the terminating condition.",
+        "answer": "repeat",
+        "options": ["repeat", "do", "for", "run"],
+        "learned": false
+    },
+    {
+        "id": 8,
+        "question": "Which one of these is not a control-flow keyword for switch statements?",
+        "answer": "repeat",
+        "options": ["repeat", "continue", "break", "fallthrough"],
+        "learned": false
+    },
+    {
+        "id": 9,
+        "question": "True or False: Cases in switch statements fall through to the next case unless they end with a break statement, like in Java or C.",
+        "answer": "False",
+        "options": ["True", "False"],
+        "learned": false
+    },
+    {
+        "id": 10,
+        "question": "Guard statements are used for...",
+        "answer": "Early exits if a condition is not met",
+        "options": ["Early exits if a condition is not met", "An alternative to the if-then-else structure", "Protecting a variable from being modified", "Escorting the princess to safety"],
+        "learned": false
+    },
+    {
+        "id": 11,
+        "question": "The syntax for specifying a return type for a function is...",
+        "answer": "func getName() -> String {...}",
+        "options": ["func getName() -> String {...}", "func String getName() {...}", "func getName() {...} -> String", "func getName() {...}.returns(String)"],
+        "learned": false
+    },
+    {
+        "id": 12,
+        "question": "Choose the proper format for assigning data values in the declaration of a struct.",
+        "answer": "Person(name: \"John\")",
+        "options": ["Person(name: \"John\")", "Person(name = \"John\")", "Person(name -> \"John\")", "Person(name is \"John\")"],
+        "learned": false
+    },
+    {
+        "id": 13,
+        "question": "Structs in Swift are passed by...",
+        "answer": "Value",
+        "options": ["Value", "Reference"],
+        "learned": false
+    },
+    {
+        "id": 14,
+        "question": "The setter function on a computed property is triggered when...",
+        "answer": "A value is assigned to that property",
+        "options": ["A value is assigned to that property", "The setter function is explicitly called in the program", "The getter function is unavailable", "Defining an array of computed properties"],
+        "learned": false
+    },
+    {
+        "id": 15,
+        "question": "What is the purpose of the “mutating” keyword before a function declaration in a struct?",
+        "answer": "Allows the function to directly modify the struct’s properties",
+        "options": ["Allows the function to directly modify the struct’s properties", "Allows the function to be overridden", "Turns the function into a teenage ninja turtle", "Lets the function change the type of the properties it modifies"],
+        "learned": false
+       },
+       {
+        "id": 16,
+        "question": "The “some” keyword in “var body: some View {…}” means…",
+        "answer": "“body” is an opaque type conforming to the “View” protocol",
+        "options": ["“body” is an opaque type conforming to the “View” protocol", "Some, not all, “View” types can be used in the “body” variable", "“body” must be the simplest “View” type", "Nothing, it just looks mysteriously professional"],
+        "learned": false
+       },
+       {
+        "id": 17,
+        "question": "True or False: Text() is a View.",
+        "answer": "True",
+        "options": ["True", "False"],
+        "learned": false
+       },
+       {
+        "id": 18,
+        "question": "Creating a binding to a variable (say, for a Slider) is done by writing…",
+        "answer": "$value",
+        "options": ["$value", "%value", "#value", "&value"],
+        "learned": false
+       },
+       {
+        "id": 19,
+        "question": "To create your own custom modifier (to a button, text view, etc…), create a _____ that conforms to the ______ protocol.",
+        "answer": "Struct, ViewModifier",
+        "options": ["Struct, ViewModifier", "Class, ViewModifier", "Struct, ViewExtension", "Class, ViewExtension"],
+        "learned": false
+       },
+       {
+        "id": 20,
+        "question": "To link a custom modifier to a view, you need to create a view…",
+        "answer": "extension",
+        "options": ["extension", "struct", "child", "class"],
+        "learned": false
+       },
+       {
+        "id": 21,
+        "question": "A range declared as (1…4) covers the values…",
+        "answer": "1, 2, 3, 4",
+        "options": ["1, 2, 3, 4", "1, 2, 3", "2, 3, 4", "1, 1.1, 1.2, … , 3.9, 4.0"],
+        "learned": false
+       },
+       {
+        "id": 22,
+        "question": "True or False: Computed properties must have both a getter and a setter method.",
+        "answer": "False",
+        "options": ["False", "True"],
+        "learned": false
+       },
+       {
+        "id": 23,
+        "question": "The .opacity() modifier accepts values from ___ (completely visible) to ___ (invisible).",
+        "answer": "0.0, 1.0",
+        "options": ["0.0, 1.0", "-1.0, 1.0", "0.0, 3.60", "-100, 100"],
+        "learned": false
+       },
+       {
+        "id": 24,
+        "question": "The property of an array that holds the number of elements is…",
+        "answer": ".count",
+        "options": [".count", ".size", ".capacity", ".holds"],
+        "learned": false
+       },
+       {
+        "id": 25,
+        "question": "How do you initialize an array with x elements, each initialized to value y?",
+        "answer": "Array(repeating: y, count: x)",
+        "options": ["Array(repeating: y, count: x)", "Array(count: x, repeating: y)", "Array(value: y, count: x)", "Array(count: x, value: y)"],
+        "learned": false
+       },
+       {
+        "id": 26,
+        "question": "True or False: Arrays in Swift are zero-indexed.",
+        "answer": "True",
+        "options": ["True", "False"],
+        "learned": false
+       },
+       {
+        "id": 27,
+        "question": "How do you insert numbers into an array?",
+        "answer": "array.insert(10, at: 0)",
+        "options": ["array.insert(10, at: 0)", "array.place(10, at: 0)", "array.insert(10, index: 0)", "array.place(10, index: 0)"],
+        "learned": false
+       },
+       {
+        "id": 28,
+        "question": "This container view provides dimensional information about a parent view to its children",
+        "answer": "GeometryReader",
+        "options": ["GeometryReader", "GeometryContext", "CoordinateView", "CoordinateGrid"],
+        "learned": false
+       },
+       {
+        "id": 29,
+        "question": "Drag gestures utilize a ___ variable and the ___ callback to track and update an object's position.",
+        "answer": "@State, onChanged",
+        "options": ["@State, onChanged", "@Binding, onChanged", "@State, onDragged", "@Binding, onDragged"],
+        "learned": false
+       },
+       {
+        "id": 30,
+        "question": "How do animations work, generally?",
+        "answer": "Modifying @State variables used to define the position, size, etc. of an object",
+        "options": ["Modifying @State variables used to define the position, size, etc. of an object", "Creating @EnvironmentObject variables to modify the size of views", "Calling predefined functions to change the binding of modifying variables", "Creating optical illusions for the user"],
+        "learned": false
+       },
+       {
+        "id": 31,
+        "question": "___ animation links an animation to a value and uses the .animation() modifier.",
+        "answer": "Implicit",
+        "options": ["Implicit", "Explicit", "Soft", "Lazy"],
+        "learned": false
+       },
+       {
+        "id": 32,
+        "question": "Explicit animation with the withAnimation block animates...",
+        "answer": "state changes inside the block",
+        "options": ["state changes inside the block", "the value linked in the block's modifier", "everything in the current view", "prepositional phrases"],
+        "learned": false
+       },
+       {
+        "id": 33,
+        "question": "CRUD is an acronym that stands for which data management principles?",
+        "answer": "Create, Read, Update, Delete",
+        "options": ["Create, Read, Update, Delete", "Compile, Run, Unpack, Debug", "Convenient access, Risk management, User interface, Detect breaches", "Can't, Really, Understand, Danish"],
+        "learned": false
+       },
+       {
+        "id": 34,
+        "question": "RESTful API stands for...",
+        "answer": "Representational State Transfer API",
+        "options": ["Representational State Transfer API", "Read-Evaluate-Secure-Transport API", "Redundant Secure Transfer API", "Reduced Estimated Time API"],
+        "learned": false
+       },
+       {
+        "id": 35,
+        "question": "POST, GET, PUT/PATCH, and DELETE are ___ methods used by RESTful APIs.",
+        "answer": "HTTP",
+        "options": ["HTTP", "USPS", "API", "NVM"],
+        "learned": false
+       },
+       {
+        "id": 36,
+        "question": "What function do RESTful APIs provide mobile app developers?",
+        "answer": "Structured interactions with databases and web services",
+        "options": ["Structured interactions with databases and web services", "Access to social media platforms", "Efficient imports of code libraries", "Mechanisms for dealing with local storage"],
+        "learned": false
+       },
+       {
+        "id": 37,
+        "question": "A commonly recommended model for programming mobile apps is...",
+        "answer": "Model, View, View Model",
+        "options": ["Model, View, View Model", "View, Data Manager, Animation State", "Data Manager, UI, Error Handler", "Model, View, Data Class"],
+        "learned": false
+       },
+       {
+        "id": 38,
+        "question": "What is CoreData?",
+        "answer": "Framework for managing object graphs and persisting data",
+        "options": ["Framework for managing object graphs and persisting data", "API for accessing online databases", "Library for accessing personal information from an iPhone", "Management framework for integrating device settings"],
+        "learned": false
+       },
+       {
+        "id": 39,
+        "question": "This is where CoreData tracks changes and chooses whether to commit them or roll them back.",
+        "answer": "NSManagedObjectContext (more generally: a context)",
+        "options": ["NSManagedObjectContext (more generally: a context)", "CDManagedObjectContext (more generally: a context)", "CSWorkspaceManager (more generally: a workspace", "NSWorkspaceManager (more generally: a workspace"],
+        "learned": false
+       },
+       {
+        "id": 40,
+        "question": "The .xcdatamodeld file defines entities, attributes, and relationships, collectively known as the...",
+        "answer": "NSManagedObjectModel",
+        "options": ["NSManagedObjectModel", "NSManagedObjectGraph", "NSManagedObjectMap", "NSManagedObjectStuff"],
+        "learned": false
+       }
+]

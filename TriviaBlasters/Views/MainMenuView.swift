@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainMenuView: View {
+    @EnvironmentObject var triviaQuestions: TriviaQuestionsModel
     var body: some View {
         NavigationStack {
             ZStack {
@@ -38,6 +39,9 @@ struct MainMenuView: View {
                         }
                         NavigationLink(destination: CustomizeView()) {
                             menuButton(title: "Customize", colors: [Color.pink, Color.orange])
+                        }
+                        NavigationLink(destination: PracticeQuestionsView()) {
+                            menuButton(title: "Practice Trivia", colors: [Color.orange, Color.green])
                         }
                         NavigationLink(destination: SettingsView()) {
                             menuButton(title: "Settings", colors: [Color.green, Color.blue])
@@ -71,5 +75,6 @@ struct MainMenuView: View {
 struct MainMenuView_Previews: PreviewProvider {
     static var previews: some View {
         MainMenuView()
+            .environmentObject(TriviaQuestionsModel())
     }
 }
