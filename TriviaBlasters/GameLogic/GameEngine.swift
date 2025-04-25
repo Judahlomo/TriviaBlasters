@@ -157,11 +157,14 @@ class GameEngine: SKScene, ObservableObject {
 
     func loseLife() {
         lives -= 1
+        print("Life lost! Lives remaining: \(lives)")
         updateHeartsDisplay()
         if lives <= 0 {
             isGameOver = true
+            print("🛑 Game Over triggered")
         }
     }
+
 
     func addHeartsDisplay() {
         for i in 0..<3 {
@@ -182,6 +185,27 @@ class GameEngine: SKScene, ObservableObject {
                 heart.isHidden = i >= lives
             }
         }
+    }
+    
+    func resetGame() {
+        isGameOver = false
+        isPaused = false
+        isTriviaTime = false
+        score = 0
+        lives = 3
+        updateHeartsDisplay()
+
+        removeAllChildren() // Remove all current nodes (enemies, bullets, player, etc.)
+        enemies.removeAll()
+        bullets.removeAll()
+
+        // Re-add essentials
+        player = PlayerShip()
+        player.position = CGPoint(x: size.width / 2, y: 100)
+        addChild(player)
+        
+        addHeartsDisplay()
+        spawnEnemies()
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

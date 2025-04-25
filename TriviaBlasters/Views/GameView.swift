@@ -12,26 +12,26 @@ struct GameView: View {
     @State private var isPaused = false
     @State private var triviaTrigger = false
     @State private var question: Question? = nil
-
+    
     @EnvironmentObject var triviaModel: TriviaQuestionsModel
-
+    
     var engine = GameEngine()
-
+    
     var scene: SKScene {
         engine.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         engine.scaleMode = .resizeFill
         return engine
     }
-
+    
     var body: some View {
         ZStack {
             SpriteView(scene: scene)
                 .edgesIgnoringSafeArea(.all)
-
+            
             if isPaused {
                 PauseMenuView(isPaused: $isPaused)
             }
-
+            
             if triviaTrigger, let currentQ = question {
                 PopupQuestionView(
                     question: currentQ,
@@ -47,7 +47,14 @@ struct GameView: View {
                     }
                 )
             }
-
+            
+            if engine.isGameOver {
+                GameOverView {
+                    engine.resetGame()
+                }
+            }
+            
+            
             VStack {
                 HStack {
                     Spacer()
