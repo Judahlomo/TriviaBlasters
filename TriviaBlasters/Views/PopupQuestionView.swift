@@ -10,13 +10,12 @@ import SwiftUI
 struct PopupQuestionView: View {
 
     @State var question: Question
-    @State var selectedOption: String? //Used for determining button label reactions
+    @State var selectedOption: String?
     let onCorrectAnswer: () -> Void
     let onIncorrectAnswer: () -> Void
     
     var body: some View {
         ZStack {
-            
             LinearGradient(
                 gradient: Gradient(colors: [Color.black, Color.purple, Color.blue]),
                 startPoint: .top,
@@ -33,9 +32,10 @@ struct PopupQuestionView: View {
                         Button {
                             selectedOption = option
                             if selectedOption == question.answer {
+                                NotificationCenter.default.post(name: Notification.Name("CorrectAnswerNotification"), object: nil)
                                 onCorrectAnswer()
-                                //isPresented = false
                             } else {
+                                NotificationCenter.default.post(name: Notification.Name("IncorrectAnswerNotification"), object: nil)
                                 onIncorrectAnswer()
                             }
                         } label: {
@@ -60,5 +60,14 @@ struct PopupQuestionView: View {
 }
 
 #Preview {
-    PopupQuestionView(question: Question(id: 1, question: "What is the first letter of the alphabet?", answer: "A", options: ["G", "A", "Omega", "Z"]), onCorrectAnswer: {print("Correct, now do stuff elsewhere")}, onIncorrectAnswer: {print("Incorrect, now do stuff elsewhere")})
+    PopupQuestionView(
+        question: Question(
+            id: 1,
+            question: "What is the first letter of the alphabet?",
+            answer: "A",
+            options: ["G", "A", "Omega", "Z"]
+        ),
+        onCorrectAnswer: { print("Correct, now do stuff elsewhere") },
+        onIncorrectAnswer: { print("Incorrect, now do stuff elsewhere") }
+    )
 }

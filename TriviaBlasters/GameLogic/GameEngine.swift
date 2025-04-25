@@ -25,12 +25,13 @@ class GameEngine: SKScene, ObservableObject {
     var maxActiveBullets = 5
     var bulletCooldown: TimeInterval = 0.2
     var lastBulletFiredAt: TimeInterval = 0
-    
-    var shouldSpawnWaveAfterTrivia: Bool = false
 
     var lastEnemyBulletTime: TimeInterval = 0
     let enemyBulletCooldown: TimeInterval = 1.5
     let maxEnemyBullets: Int = 5
+    
+    var shouldSpawnWaveAfterTrivia: Bool = false
+
 
     override func didMove(to view: SKView) {
         backgroundColor = .black
@@ -42,14 +43,19 @@ class GameEngine: SKScene, ObservableObject {
         spawnEnemies()
         addHeartsDisplay()
 
+        // Trivia notification
         NotificationCenter.default.addObserver(forName: Notification.Name("TriggerTriviaPopup"), object: nil, queue: .main) { _ in
             self.isTriviaTime = true
             self.isPaused = true
+        }
 
-            // TEMP logic to simulate end of trivia
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                self.endTrivia()
-            }
+        NotificationCenter.default.addObserver(forName: Notification.Name("CorrectAnswerNotification"), object: nil, queue: .main) { _ in
+            self.endTrivia()
+        }
+
+        NotificationCenter.default.addObserver(forName: Notification.Name("IncorrectAnswerNotification"), object: nil, queue: .main) { _ in
+            self.loseLife()
+            self.endTrivia()
         }
     }
 
@@ -60,7 +66,6 @@ class GameEngine: SKScene, ObservableObject {
         moveBullets()
         checkBulletCollisions()
 
-        // Respawn enemies if trivia ended and all are gone
         let remainingEnemies = children.filter { $0.name == EnemyType.name }
         if !isPaused && !isTriviaTime && remainingEnemies.isEmpty {
             spawnEnemies()
@@ -115,6 +120,7 @@ class GameEngine: SKScene, ObservableObject {
                 }
             }
         }
+
         enumerateChildNodes(withName: kInvaderFiredBulletName) { bullet, _ in
             if bullet.frame.intersects(self.player.frame) {
                 bullet.removeFromParent()
@@ -139,7 +145,6 @@ class GameEngine: SKScene, ObservableObject {
                 enemy.position = CGPoint(x: enemyX, y: enemyY)
                 addChild(enemy)
                 enemies.append(enemy)
-
                 enemyX += EnemyType.size.width + kInvaderGridSpacing.width
             }
         }
@@ -161,15 +166,12 @@ class GameEngine: SKScene, ObservableObject {
     func addHeartsDisplay() {
         for i in 0..<3 {
             let heart = SKSpriteNode(imageNamed: "Heart")
-            
-            // Positioning lower on the screen, similar height as Pause button
             let xPosition = 40 + CGFloat(i * 40)
-            let yPosition = size.height - 140  // Adjust this number to move vertically
+            let yPosition = size.height - 140
             heart.position = CGPoint(x: xPosition, y: yPosition)
-            
             heart.name = "heart\(i)"
-            heart.setScale(0.4)  // Slightly smaller
-            heart.zPosition = 10  // Ensures it's above game elements
+            heart.setScale(0.4)
+            heart.zPosition = 10
             addChild(heart)
         }
     }
