@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainMenuView: View {
     @EnvironmentObject var triviaQuestions: TriviaQuestionsModel
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -19,7 +20,7 @@ struct MainMenuView: View {
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 20) {
-                    Spacer(minLength: 100) // Adjusts title position
+                    Spacer(minLength: 100)
                     
                     // Title
                     Text("Trivia Blasters")
@@ -29,16 +30,10 @@ struct MainMenuView: View {
                     
                     Spacer(minLength: 20)
                     
-                    // Menu Buttons
+                    // Menu Buttons (Shop & Customize removed)
                     VStack(spacing: 20) {
                         NavigationLink(destination: GameView()) {
                             menuButton(title: "New Game", colors: [Color.blue, Color.purple])
-                        }
-                        NavigationLink(destination: ShopView()) {
-                            menuButton(title: "Shop", colors: [Color.purple, Color.pink])
-                        }
-                        NavigationLink(destination: CustomizeView()) {
-                            menuButton(title: "Customize", colors: [Color.pink, Color.orange])
                         }
                         NavigationLink(destination: PracticeQuestionsView()) {
                             menuButton(title: "Practice Trivia", colors: [Color.orange, Color.green])
@@ -71,7 +66,6 @@ struct MainMenuView: View {
     }
 }
 
-// MARK: - Preview
 struct MainMenuView_Previews: PreviewProvider {
     static var previews: some View {
         MainMenuView()
