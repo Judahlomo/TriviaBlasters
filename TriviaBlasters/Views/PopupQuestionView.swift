@@ -13,23 +13,31 @@ struct PopupQuestionView: View {
     @State var selectedOption: String?
     let onCorrectAnswer: () -> Void
     let onIncorrectAnswer: () -> Void
-    
+
     var body: some View {
         ZStack {
+            // Solid space-themed background
             LinearGradient(
-                gradient: Gradient(colors: [Color.black, Color.purple, Color.blue]),
-                startPoint: .top,
-                endPoint: .bottom
+                gradient: Gradient(colors: [Color.black, Color.blue, Color.purple]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
             )
             .edgesIgnoringSafeArea(.all)
-            
-            VStack(alignment: .leading) {
-                Text(question.question)
-                    .bold()
-                
-                ForEach(question.options.shuffled(), id: \.self) { option in
-                    HStack {
-                        Button {
+
+            VStack(spacing: 24) {
+                Text("🚀 Quiz Challenge")
+                    .font(.headline)
+                    .foregroundColor(.white)
+
+                VStack(alignment: .leading, spacing: 20) {
+                    Text(question.question)
+                        .font(.title3)
+                        .bold()
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.leading)
+
+                    ForEach(question.options.shuffled(), id: \.self) { option in
+                        Button(action: {
                             selectedOption = option
                             if selectedOption == question.answer {
                                 NotificationCenter.default.post(name: Notification.Name("CorrectAnswerNotification"), object: nil)
@@ -38,22 +46,36 @@ struct PopupQuestionView: View {
                                 NotificationCenter.default.post(name: Notification.Name("IncorrectAnswerNotification"), object: nil)
                                 onIncorrectAnswer()
                             }
-                        } label: {
-                            if selectedOption == option {
-                                Circle()
-                                    .frame(width: 20, height: 20)
-                            } else {
-                                Circle()
-                                    .stroke()
-                                    .frame(width: 20, height: 20)
+                        }) {
+                            HStack(spacing: 12) {
+                                ZStack {
+                                    Circle()
+                                        .stroke(Color.white, lineWidth: 2)
+                                        .frame(width: 20, height: 20)
+                                    if selectedOption == option {
+                                        Circle()
+                                            .fill(Color.green)
+                                            .frame(width: 12, height: 12)
+                                    }
+                                }
+
+                                Text(option)
+                                    .foregroundColor(.white)
+                                    .font(.body)
+
+                                Spacer()
                             }
+                            .padding()
+                            .background(Color(red: 30/255, green: 30/255, blue: 40/255)) // solid dark panel
+                            .cornerRadius(10)
                         }
-                        .padding(.horizontal)
-                        
-                        Text(option)
                     }
-                    .padding(.horizontal)
                 }
+                .padding()
+                .background(Color(red: 20/255, green: 20/255, blue: 30/255)) // solid container
+                .cornerRadius(16)
+                .shadow(color: .black, radius: 10)
+                .padding(.horizontal, 20)
             }
         }
     }
