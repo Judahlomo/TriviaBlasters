@@ -15,7 +15,7 @@ struct GameView: View {
     
     @EnvironmentObject var triviaModel: TriviaQuestionsModel
     
-    var engine = GameEngine()
+    @StateObject var engine = GameEngine()
     
     var scene: SKScene {
         engine.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -52,6 +52,8 @@ struct GameView: View {
                 GameOverView {
                     engine.resetGame()
                 }
+                .transition(.opacity)
+                .zIndex(2)
             }
             
             
