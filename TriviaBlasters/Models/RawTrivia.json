@@ -120,7 +120,7 @@
        },
        {
         "id": 18,
-        "question": "Creating a binding to a variable (say, for a Slider) is done by writing…",
+        "question": "Creating a binding to a variable is done by writing…",
         "answer": "$value",
         "options": ["$value", "%value", "#value", "&value"],
         "learned": false
@@ -155,7 +155,7 @@
        },
        {
         "id": 23,
-        "question": "The .opacity() modifier accepts values from ___ (completely visible) to ___ (invisible).",
+        "question": "The .opacity() modifier accepts values from ___ (fully transparent) to ___ (fully opaque).",
         "answer": "0.0, 1.0",
         "options": ["0.0, 1.0", "-1.0, 1.0", "0.0, 3.60", "-100, 100"],
         "learned": false
